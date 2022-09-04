@@ -2,10 +2,29 @@
 ## Running the app
 
 ```bash
-# development
 $ npm install
-
+```
+```bash
 $ npm run start:dev
+```
+
+### Session based Auth routes
+`/login json body`
+```json
+$ {
+    "username": 1,
+    "password": "passwod123"
+```
+```bash
+$ http://localhost:3000/auth/login
+```
+`/protected only returns when user is authenticated`
+```bash
+$ http://localhost:3000/auth/protected
+```
+`/logout clear user session/unauth`
+```bash
+$ http://localhost:3000/auth/logout
 ```
 
 <p align="center">
