@@ -11,9 +11,10 @@ $ npm run start:dev
 ### Session based Auth routes
 `/login json body`
 ```json
-$ {
+  {
     "username": 1,
-    "password": "passwod123"
+    "password": "passwod123
+  }
 ```
 ```bash
 $ http://localhost:3000/auth/login
