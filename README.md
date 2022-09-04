@@ -13,7 +13,7 @@ $ npm run start:dev
 ```json
   {
     "username": 1,
-    "password": "passwod123
+    "password": "passwod123"
   }
 ```
 ```bash
