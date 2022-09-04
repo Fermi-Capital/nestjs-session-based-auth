@@ -1,5 +1,9 @@
 
 ## Running the app
+create a .env file with postgres db connection var `DATABASE_URL`
+```bash
+$ DATABASE_URL=postgresql://postgres:<password>@localhost:5432/postgres?schema=public
+```
 
 ```bash
 $ npm install
