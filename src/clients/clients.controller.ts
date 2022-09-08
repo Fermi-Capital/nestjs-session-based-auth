@@ -20,9 +20,9 @@ export class ClientController {
   async updateClient(
     @Param('clientId') clientId: string,
     @Body()
-    clientData: { eventDescription: string },
+    updateClientData: { eventDescription: string },
   ): Promise<Client> {
-    const { eventDescription } = clientData;
+    const { eventDescription } = updateClientData;
     return this.clientService.freezeClient({
       where: { id: Number(clientId) },
       eventDescription,

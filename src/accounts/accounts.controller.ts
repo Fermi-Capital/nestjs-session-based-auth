@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AccountService } from './accounts.service';
-import { Account, Prisma } from '@prisma/client';
+import { Account } from '@prisma/client';
 
 @Controller('accounts')
 export class AccountController {
@@ -28,13 +28,12 @@ export class AccountController {
   @Post()
   async createAccount(
     @Body()
-    accountCreateInput: {
-      clientId: string;
+    createAccountData: {
+      clientId: number;
     },
   ): Promise<Account> {
-    const { clientId } = accountCreateInput;
-    console.log(clientId);
-    return this.accountService.createAccount(Number(clientId));
+    const { clientId } = createAccountData;
+    return this.accountService.createAccount(clientId);
   }
 
   @Patch(':accountId')
