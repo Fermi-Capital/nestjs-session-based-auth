@@ -11,22 +11,19 @@ datasource db {
 }
 
 model Client {
-  id               Int       @id @default(autoincrement())
-  externalClientId String
-  isFrozen         Boolean?  @default(false)
-  dateCreated      DateTime? @default(now())
-  accounts         Account[]
+  id          Int       @id @default(autoincrement())
+  dateCreated DateTime? @default(now())
+  isFrozen    Boolean?  @default(false)
+  accounts    Account[]
 }
 
 model Account {
-  id                       Int       @id @default(autoincrement())
-  clientId                 Int
-  externalAccountId        String
-  dateCreated              DateTime? @default(now())
-  status                   Json
-  riskScoreResult          Int
-  riskScoreSelected        Int
-  riskalyzeClientId        String
-  riskalyzeQuestionnaireId String
-  client                   Client    @relation(fields: [clientId], references: [id])
+  id                        Int       @id @default(autoincrement())
+  clientId                  Int
+  dateCreated               DateTime? @default(now())
+  status                    Int?      @default(0)
+  riskScoreResult           Int?      @default(0)
+  riskScoreSelected         Int?      @default(0)
+  riskalyzeQuestionnaireUrl String?
+  client                    Client    @relation(fields: [clientId], references: [id])
 }

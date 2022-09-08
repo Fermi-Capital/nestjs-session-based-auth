@@ -14,40 +14,27 @@ export class ClientService {
     });
   }
 
-  async clients(params: {
-    where?: { externalClientId: Client['externalClientId'] };
-  }): Promise<Client[]> {
-    const { where } = params;
-    return this.prisma.client.findMany({
-      where,
-    });
+  async createClient(): Promise<Client> {
+    return this.prisma.client.create({ data: {} });
   }
 
-  async createClient(
-    externalClientId: Prisma.ClientCreateInput['externalClientId'],
-  ): Promise<Client> {
-    return this.prisma.client.create({
-      data: {
-        externalClientId,
-      },
-    });
-  }
-
-  async updateClient(params: {
+  async freezeClient(params: {
     where: Prisma.ClientWhereUniqueInput;
-    externalClientId: Client['externalClientId'];
+    eventDescription: string;
   }): Promise<Client> {
-    const { where, externalClientId } = params;
+    const { where, eventDescription } = params;
+
+    // does the freeze event have an event description
+    if (eventDescription) {
+      console.log(eventDescription);
+    } else {
+      console.log('No event description');
+    }
+
     return this.prisma.client.update({
       data: {
-        externalClientId,
+        isFrozen: true,
       },
-      where,
-    });
-  }
-
-  async deleteClient(where: Prisma.ClientWhereUniqueInput): Promise<Client> {
-    return this.prisma.client.delete({
       where,
     });
   }

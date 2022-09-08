@@ -1,30 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Patch,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
 import { ClientService } from './clients.service';
-import { Client, Prisma } from '@prisma/client';
+import { Client } from '@prisma/client';
 
 @Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
-
-  @Get()
-  async clients(
-    @Query('externalClientId') externalClientId: Client['externalClientId'],
-  ): Promise<Client[]> {
-    return this.clientService.clients({
-      where: {
-        externalClientId,
-      },
-    });
-  }
 
   @Get(':clientId')
   async client(@Param('clientId') clientId: Client['id']): Promise<Client> {
@@ -32,31 +12,20 @@ export class ClientController {
   }
 
   @Post()
-  async createClient(
-    @Body()
-    clientData: {
-      externalClientId: Prisma.ClientCreateInput['externalClientId'];
-    },
-  ): Promise<Client> {
-    const { externalClientId } = clientData;
-    return this.clientService.createClient(externalClientId);
+  async createClient(): Promise<Client> {
+    return this.clientService.createClient();
   }
 
-  @Patch(':clientId')
+  @Patch(':clientId/freeze')
   async updateClient(
     @Param('clientId') clientId: string,
     @Body()
-    clientData: { externalClientId: string },
+    clientData: { eventDescription: string },
   ): Promise<Client> {
-    const { externalClientId } = clientData;
-    return this.clientService.updateClient({
+    const { eventDescription } = clientData;
+    return this.clientService.freezeClient({
       where: { id: Number(clientId) },
-      externalClientId,
+      eventDescription,
     });
-  }
-
-  @Delete(':clientId')
-  async deleteClient(@Param('clientId') clientId: string): Promise<Client> {
-    return this.clientService.deleteClient({ id: Number(clientId) });
   }
 }
