@@ -24,7 +24,7 @@ export class AccountController {
   ): Promise<Account> {
     // @ts-ignore
     console.log(session);
-    console.log(jwt.verify(session.jwt, 'SetStrongSecInDotEnv'));
+    console.log(jwt.verify(session.jwt, process.env.JWT_KEY));
     return this.accountService.account(
       { id: Number(accountId) },
       forceRiskScoreUpdate,

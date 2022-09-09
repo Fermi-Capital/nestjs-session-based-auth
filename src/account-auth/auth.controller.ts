@@ -14,11 +14,13 @@ export class AccountAuthController {
 
   @Post('/login')
   async login(@Body() accountData: { id: number }): Promise<any> {
-    const user = await this.accountAuthService.validateUser(accountData.id);
-    if (!user) {
+    const account = await this.accountAuthService.validateAccount(
+      accountData.id,
+    );
+    if (!account) {
       throw new UnauthorizedException();
     }
-    return user;
+    return account;
   }
 
   //Get / protected
@@ -33,6 +35,6 @@ export class AccountAuthController {
   logout(@Session() session: Record<string, any>): any {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     session = null;
-    return { msg: 'The user session has ended' };
+    return { msg: 'The account session has ended' };
   }
 }

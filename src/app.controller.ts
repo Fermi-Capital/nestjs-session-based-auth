@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { PartnerAuthService } from './partner-auth/auth.service';
 
-@Controller()
+@Controller('/')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly partnerAuthService: PartnerAuthService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  async getHello(): Promise<any> {
+    return await this.partnerAuthService.validatePartner('1');
   }
 }

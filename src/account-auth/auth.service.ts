@@ -16,7 +16,7 @@ export class AccountAuthService {
     @Inject(REQUEST) private request: Request,
     private readonly accountService: AccountService,
   ) {}
-  async validateUser(accountId: Account['id']): Promise<any> {
+  async validateAccount(accountId: Account['id']): Promise<any> {
     const accountData = await this.accountService.account({
       id: Number(accountId),
     });
@@ -31,14 +31,13 @@ export class AccountAuthService {
         accountId: accountData.id,
         clientId: accountData.clientId,
       },
-      'SetStrongSecretInDotEnv',
+      process.env.JWT_KEY,
     );
 
-    this.request.session = {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      jwt: accountJwt,
-    };
+    // assign accountJwt to cookie session jwt
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.request.session.jwt = accountJwt;
 
     return accountData;
   }
