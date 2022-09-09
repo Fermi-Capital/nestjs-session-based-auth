@@ -3,34 +3,36 @@ import {
   Controller,
   Get,
   Post,
-  Request,
-  UseGuards,
+  Session,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { AccountService } from '@app/accounts/accounts.service';
-import { LocalStrategy } from './local.strategy';
+import { AccountAuthService } from './auth.service';
 
 @Controller('auth')
 export class AccountAuthController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(private readonly accountAuthService: AccountAuthService) {}
 
-  //Post / Login
-  @UseGuards(LocalStrategy)
   @Post('/login')
-  login(@Body() accountData: { id: number }): any {
-    return { accountId: accountData.id, msg: 'Account logged in' };
+  async login(@Body() accountData: { id: number }): Promise<any> {
+    const user = await this.accountAuthService.validateUser(accountData.id);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return user;
   }
 
   //Get / protected
   // @UseGuards(AuthenticatedGuard)
   @Get('/protected')
-  getHello(@Request() req): string {
-    return req.body;
+  getHello(@Session() session: Record<string, any>): any {
+    console.log(session);
+    return session;
   }
 
-  //Get / logout
   @Get('/logout')
-  logout(@Request() req): any {
-    req.session.destroy();
+  logout(@Session() session: Record<string, any>): any {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    session = null;
     return { msg: 'The user session has ended' };
   }
 }

@@ -4,9 +4,15 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { createClient } from 'redis';
 import * as createRedisStore from 'connect-redis';
+// @ts-ignore
+import * as cookieSession from 'cookie-session';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // https request from ingenx or something
+  app.set('trust proxy', true);
 
   // redis@v4
   const redisClient = createClient({
@@ -15,29 +21,14 @@ async function bootstrap() {
   });
   redisClient.connect().catch(console.error);
 
-  // global config jwt cookie combo auth
   app.use(
-    '/sldkfj',
-    passport.authenticate('jwt-cookiecombo', {
-      session: false,
-      jwt: {
-        secret: process.env.JWT_SECRET || 'SetStrongSecretInDotEnv',
-        options: {
-          audience: 'https://example.io',
-          expiresIn: '1h',
-          issuer: 'example.io',
-        },
-        cookie: {
-          httpOnly: true,
-          sameSite: true,
-          signed: true,
-          secure: true,
-        },
-      },
+    cookieSession({
+      name: 'stacked:account:session',
+      signed: false,
+      secure: false,
+      // Cookie Options
+      maxAge: 0.1 * 60 * 60 * 1000, // 6 mins
     }),
-    (req, res, next) => {
-      return next();
-    },
   );
 
   const RedisStore = createRedisStore(session);

@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Query,
+  Session,
 } from '@nestjs/common';
 import { AccountService } from './accounts.service';
 import { Account } from '@prisma/client';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('accounts')
 export class AccountController {
@@ -16,9 +18,13 @@ export class AccountController {
 
   @Get(':accountId')
   async client(
+    @Session() session: Record<string, any>,
     @Param('accountId') accountId: Account['id'],
     @Query('forceRiskScoreUpdate') forceRiskScoreUpdate: boolean,
   ): Promise<Account> {
+    // @ts-ignore
+    console.log(session);
+    console.log(jwt.verify(session.jwt, 'SetStrongSecInDotEnv'));
     return this.accountService.account(
       { id: Number(accountId) },
       forceRiskScoreUpdate,
