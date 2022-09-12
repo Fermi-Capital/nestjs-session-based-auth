@@ -17,14 +17,11 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get(':accountId')
-  async client(
+  async getAccount(
     @Session() session: Record<string, any>,
     @Param('accountId') accountId: Account['id'],
     @Query('forceRiskScoreUpdate') forceRiskScoreUpdate: boolean,
   ): Promise<Account> {
-    // @ts-ignore
-    console.log(session);
-    console.log(jwt.verify(session.jwt, process.env.JWT_KEY));
     return this.accountService.account(
       { id: Number(accountId) },
       forceRiskScoreUpdate,

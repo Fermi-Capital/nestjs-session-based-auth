@@ -11,7 +11,7 @@ async function bootstrap() {
 
   // https request from ingenx or something
   app.set('trust proxy', true);
-  console.log();
+
   // redis@v4
   const redisClient = createClient({
     url: process.env.REDIS_HOST,
@@ -25,11 +25,11 @@ async function bootstrap() {
       store: new RedisStore({ client: redisClient }),
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
-      name: 'stacked:account:session',
+      name: 'path:account:session',
       resave: false,
       cookie: {
         signed: false,
-        secure: false,
+        secure: true,
         // Cookie Options
         maxAge: 0.1 * 60 * 60 * 1000, // 6 mins
       },

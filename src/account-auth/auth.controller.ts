@@ -23,8 +23,6 @@ export class AccountAuthController {
     return account;
   }
 
-  //Get / protected
-  // @UseGuards(AuthenticatedGuard)
   @Get('/protected')
   getHello(@Session() session: Record<string, any>): any {
     console.log(session);
@@ -33,8 +31,8 @@ export class AccountAuthController {
 
   @Get('/logout')
   logout(@Session() session: Record<string, any>): any {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    session = null;
+    // for redis sessions must use destroy
+    session.destroy();
     return { msg: 'The account session has ended' };
   }
 }

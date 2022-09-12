@@ -28,28 +28,27 @@ export class PartnerAuthService {
       throw new NotAcceptableException('could not find the partner');
     }
 
-    // const ts = 1588591511721
-    // const signature_payload = b'1588591511721GET/api/markets'
+    const ts = Date.now(); // const ts = 1588591511721
+    const signature_payload = `${ts}/auth/account/2`;
     // const signature = "dbc62ec300b2624c580611858d94f2332ac636bb86eccfa1167a7777c496ee6f
 
-    const payload = '{ accountId: 6 }';
     const hmac = crypto
       .createHmac('sha384', 'secret')
-      .update('{ accountId: 6 }')
+      .update(signature_payload)
       .digest('hex');
 
     console.log(hmac);
 
     const computedHmac = crypto
       .createHmac('sha384', 'secret')
-      .update(payload)
+      .update(signature_payload)
       .digest('hex');
 
     // check hmac
     if (computedHmac != hmac) {
       return console.log({ error: 'Security check failed' });
     }
-    console.log('hmac payload', computedHmac);
+    console.log('hmac payload', computedHmac, signature_payload);
 
     return partnerData;
   }
