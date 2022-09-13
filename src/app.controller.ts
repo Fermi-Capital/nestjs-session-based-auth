@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
-import { PartnerAuthService } from './partner-auth/auth.service';
 
 @Controller('/')
 export class AppController {
-  constructor(private readonly partnerAuthService: PartnerAuthService) {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  constructor() {}
 
   @Get()
   async getHello(): Promise<any> {
-    return await this.partnerAuthService.validatePartner('1');
+    return 'hello world';
   }
 }
