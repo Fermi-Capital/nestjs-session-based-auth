@@ -1,33 +1,46 @@
-
 ## Running the app
-create a .env file with postgres db connection var `DATABASE_URL`
+
+create a .env file with postgres db, redis and jwt keys, something like this:
+
 ```bash
-$ DATABASE_URL=postgresql://postgres:<password>@localhost:5432/postgres?schema=public
+$DATABASE_URL=postgresql://postgres:<password>@localhost:5432/postgres?schema=public
+$REDIS_PORT=6379
+$REDIS_HOST=redis://127.0.0.1:6379
+$JWT_KEY=SLDKFJ@34dlfkj4589clkj%$22
+$SESSION_SECRET=434LKJLK#3_F354$FCDSdlskfj90l%^4
 ```
 
 ```bash
 $ npm install
 ```
+
 ```bash
 $ npm run start:dev
 ```
 
 ### Session based Auth routes
+
 `/login json body`
+
 ```json
-  {
-    "username": 1,
-    "password": "passwod123"
-  }
+{
+  "username": 1,
+  "password": "passwod123"
+}
 ```
+
 ```bash
 $ http://localhost:3000/auth/login
 ```
+
 `/protected only returns when user is authenticated`
+
 ```bash
 $ http://localhost:3000/auth/protected
 ```
+
 `/logout clear user session/unauth`
+
 ```bash
 $ http://localhost:3000/auth/logout
 ```
