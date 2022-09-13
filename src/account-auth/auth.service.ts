@@ -28,15 +28,13 @@ export class AccountAuthService {
     // create account jwt
     const accountJwt = jwt.sign(
       {
-        accountId: accountData.id,
+        id: accountData.id,
         clientId: accountData.clientId,
       },
       process.env.JWT_KEY,
     );
 
     // assign accountJwt to cookie session jwt
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     this.request.session.jwt = accountJwt;
 
     return accountData;

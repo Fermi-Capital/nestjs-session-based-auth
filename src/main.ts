@@ -29,7 +29,7 @@ async function bootstrap() {
       resave: false,
       cookie: {
         signed: false,
-        secure: true,
+        secure: false,
         // Cookie Options
         maxAge: 0.1 * 60 * 60 * 1000, // 6 mins
       },

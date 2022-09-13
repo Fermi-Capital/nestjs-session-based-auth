@@ -6,11 +6,11 @@ import {
   Param,
   Patch,
   Query,
-  Session,
 } from '@nestjs/common';
-import { AccountService } from './accounts.service';
+
 import { Account } from '@prisma/client';
-import * as jwt from 'jsonwebtoken';
+
+import { AccountService } from './accounts.service';
 
 @Controller('accounts')
 export class AccountController {
@@ -18,7 +18,6 @@ export class AccountController {
 
   @Get(':accountId')
   async getAccount(
-    @Session() session: Record<string, any>,
     @Param('accountId') accountId: Account['id'],
     @Query('forceRiskScoreUpdate') forceRiskScoreUpdate: boolean,
   ): Promise<Account> {
