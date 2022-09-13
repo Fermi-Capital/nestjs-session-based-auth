@@ -27,7 +27,7 @@ $ npm run start:dev
 ```json
 {
   "id": 1,
-  signature: "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
+  "signature": "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
 }
 ```
 
@@ -53,7 +53,7 @@ $ http://localhost:3000/auth/account/logout
 $ http://localhost:3000/accounts/:id
 ```
 
-`POST /account creates account, so a hmac sig must be provided`
+`POST /accounts creates account, so a hmac sig must be provided`
 
 ```json
 {
