@@ -7,7 +7,6 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-
 import { Account } from '@prisma/client';
 
 import { AccountService } from './accounts.service';

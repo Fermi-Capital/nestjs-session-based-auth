@@ -34,7 +34,7 @@ export class AccountAuthService {
       process.env.JWT_KEY,
     );
 
-    // assign accountJwt to cookie session jwt
+    // assign accountJwt to session jwt
     this.request.session.jwt = accountJwt;
 
     return accountData;

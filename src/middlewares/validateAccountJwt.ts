@@ -17,7 +17,7 @@ export class ValidateAccountJwtMiddleware implements NestMiddleware {
       throw new HttpException('Forbidden', HttpStatus.UNAUTHORIZED);
     }
     // assign valid account object on request
-    const validAccount = jwt.verify(accountJwt, process.env.JWT_KEY) as any;
+    const validAccount = jwt.verify(accountJwt, process.env.JWT_KEY) as Account;
     req.account = validAccount;
     next();
   }

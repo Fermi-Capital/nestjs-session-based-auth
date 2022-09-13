@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Session } from '@nestjs/common';
 import { AccountAuthService } from './auth.service';
 
-@Controller('auth')
+@Controller('auth/account')
 export class AccountAuthController {
   constructor(private readonly accountAuthService: AccountAuthService) {}
 
@@ -11,12 +11,6 @@ export class AccountAuthController {
       accountData.id,
     );
     return account;
-  }
-
-  @Get('/protected')
-  getHello(@Session() session: Record<string, any>): any {
-    console.log(session);
-    return session;
   }
 
   @Get('/logout')
