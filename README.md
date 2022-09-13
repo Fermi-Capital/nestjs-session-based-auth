@@ -58,7 +58,7 @@ $ http://localhost:3000/accounts/:id
 ```json
 {
   "clientId": 1,
-  signature: "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
+  "signature": "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
 }
 ```
 
