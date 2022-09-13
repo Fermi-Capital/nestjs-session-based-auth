@@ -9,7 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // https request from ingenx or something
+  // https request from ingenx or the like
   app.set('trust proxy', true);
 
   // redis@v4
@@ -30,7 +30,6 @@ async function bootstrap() {
       cookie: {
         signed: false,
         secure: process.env.NODE_ENV === 'dev' ? false : true,
-        // Cookie Options
         maxAge: 0.1 * 60 * 60 * 1000, // 6 mins
       },
     }),
