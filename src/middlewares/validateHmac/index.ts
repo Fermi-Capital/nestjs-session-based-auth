@@ -6,19 +6,22 @@ import {
 import { Request, Response, NextFunction } from 'express';
 
 import * as crypto from 'crypto';
+import { HMAC_ALGO, HMAC_DIGEST } from './constants';
 
 @Injectable()
 export class ValidateHmacMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const { signature, signature_payload } = req.body;
     // const { PATH_KEY } = req.headers;
+    // const PATH_KEY = 'public key';
 
     if (!signature || !signature_payload) {
       throw new NotAcceptableException('payload or signature not provided');
     }
 
-    // TODO: look up partner secret kek from header
+    // TODO: look up partner secret keY from header public key
     // console.log(req.headers);
+    const PATH_API_SECRET = 'secret key';
 
     // sorta like ftx:
     // const ts = Date.now(); // const ts = 1588591511721
@@ -27,20 +30,20 @@ export class ValidateHmacMiddleware implements NestMiddleware {
     console.log(signature_payload);
 
     const hmac = crypto
-      .createHmac('sha384', 'secret')
+      .createHmac(HMAC_ALGO, PATH_API_SECRET)
       .update(signature)
-      .digest('hex');
+      .digest(HMAC_DIGEST);
 
     console.log(hmac);
 
     const computedHmac = crypto
-      .createHmac('sha384', 'secret')
+      .createHmac(HMAC_ALGO, PATH_API_SECRET)
       .update(signature)
-      .digest('hex');
+      .digest(HMAC_DIGEST);
 
     // check hmac
     if (computedHmac != hmac) {
-      return console.log({ error: 'Security check failed' });
+      throw new NotAcceptableException('HMAC Security check failed');
     }
     console.log('hmac payload', computedHmac, signature_payload);
 
