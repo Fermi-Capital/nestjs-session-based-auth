@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   async getHello(): Promise<any> {
-    return 'hello world';
+    return 'Path B2B API';
   }
 }

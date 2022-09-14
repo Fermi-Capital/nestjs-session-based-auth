@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as session from 'express-session';
-import * as passport from 'passport';
 import { createClient } from 'redis';
 import * as createRedisStore from 'connect-redis';
 import { NestExpressApplication } from '@nestjs/platform-express';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -34,8 +35,16 @@ async function bootstrap() {
       },
     }),
   );
-  app.use(passport.initialize());
-  app.use(passport.session());
+
+  // swagger
+  const config = new DocumentBuilder()
+    .setTitle('B2B example')
+    .setDescription('Path B2b API')
+    .setVersion('1.0')
+    .addTag('Path B2B')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
