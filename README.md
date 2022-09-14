@@ -1,5 +1,7 @@
 ## Running the app
 
+Example NestJs server to protect routes with HMAC Signatures, authenticate accounts and validate requests with JWT's managed within Cookies. Uses Redis to managed account's sessions, postgres and prisma for ORM.
+
 create a .env file with postgres db, redis and jwt keys, something like this:
 
 ```bash
@@ -20,30 +22,50 @@ $ npm run start:dev
 
 ### Session based Auth routes
 
-`/login json body`
+`POST auth/account/login json body contains account id`
 
 ```json
 {
-  "username": 1,
-  "password": "passwod123"
+  "id": 1,
+  "signature": "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
 }
 ```
 
 ```bash
-$ http://localhost:3000/auth/login
+$ http://localhost:3000/auth/account/login
 ```
 
-`/protected only returns when user is authenticated`
+`auth/account/logout destroy's session for account`
 
 ```bash
-$ http://localhost:3000/auth/protected
+$ http://localhost:3000/auth/account/logout
 ```
 
-`/logout clear user session/unauth`
+`GET /account/:id get account, account must be logged in through auth/account/login, checks if account jwt is valid`
+
+```json
+{
+  "id": 1,
+}
+```
 
 ```bash
-$ http://localhost:3000/auth/logout
+$ http://localhost:3000/accounts/:id
 ```
+
+`POST /accounts creates account, so a hmac sig must be provided`
+
+```json
+{
+  "clientId": 1,
+  "signature": "bef80dcba63376861295cc4d81c6ac734a9de3e5626a79e9171d6593ddc9fd5a"
+}
+```
+
+```bash
+$ http://localhost:3000/accounts
+```
+
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
