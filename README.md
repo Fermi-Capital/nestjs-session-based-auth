@@ -22,7 +22,7 @@ $ npm run start:dev
 
 ### Session based Auth routes
 
-`POST auth/account/login json body contains account id`
+`POST auth/account/login json body contains account id and hmac sig`
 
 ```json
 {
